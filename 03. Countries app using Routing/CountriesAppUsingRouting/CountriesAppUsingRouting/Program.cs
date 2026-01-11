@@ -11,5 +11,13 @@ var countries = new Dictionary<int, string>
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
+app.MapGet("/countries", async context =>
+{
+    foreach (var country in countries)
+    {
+        await context.Response.WriteAsync($"{country.Key}. {country.Value}\n");
+    }
+});
+
 
 app.Run();
