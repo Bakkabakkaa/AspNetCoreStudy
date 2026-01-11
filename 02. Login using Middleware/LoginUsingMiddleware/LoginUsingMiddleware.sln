@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginUsingMiddleware", "LoginUsingMiddleware\LoginUsingMiddleware.csproj", "{ABD7809C-B60A-466A-B139-E06283CAD207}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABD7809C-B60A-466A-B139-E06283CAD207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD7809C-B60A-466A-B139-E06283CAD207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD7809C-B60A-466A-B139-E06283CAD207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD7809C-B60A-466A-B139-E06283CAD207}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
