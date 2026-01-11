@@ -19,5 +19,19 @@ app.MapGet("/countries", async context =>
     }
 });
 
+app.MapGet("/countries/{id:int:range(0, 100)}", async context =>
+{
+    int id = Convert.ToInt32(context.Request.RouteValues["id"]);
+
+    if (id < 1 || id > 5)
+    {
+        context.Response.StatusCode = 404;
+        await context.Response.WriteAsync("[No Country]");
+        return;
+    }
+
+    context.Response.StatusCode = 200;
+    await context.Response.WriteAsync(countries[id]);
+});
 
 app.Run();
