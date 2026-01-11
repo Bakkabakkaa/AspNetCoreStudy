@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Primitives;
+
 namespace LoginUsingMiddleware.Middleware;
 
 public class MyMiddleware
@@ -13,27 +15,58 @@ public class MyMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        if (context.Request.Method == "Post" && context.Request.Path == "/")
+        if (context.Request.Method == "POST" && context.Request.Path == "/")
         {
-            var form = await context.Request.ReadFormAsync();
+            StreamReader reader = new StreamReader(context.Request.Body);
+            var body = await reader.ReadToEndAsync();
 
-            var email = form["email"][0];
-            var password = form["password"][0];
+            Dictionary<string, StringValues> queryDictionary =
+                Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(body);
 
-            if (string.IsNullOrEmpty(password) || password != userPassword)
+            bool hasEmail = queryDictionary.ContainsKey("email");
+            bool hasPassword = queryDictionary.ContainsKey("password");
+
+            if (!hasEmail && !hasPassword)
             {
                 context.Response.StatusCode = 400;
-                await context.Response.WriteAsync("Неверный пароль");
+                await context.Response.WriteAsync("Неверный ввод логина\n");
+                await context.Response.WriteAsync("Неверный ввод пароля");
+                return;
             }
-            
-            if (string.IsNullOrEmpty(email) || email != userEmail)
+            else if (!hasEmail)
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync("Неверный логин");
+                return;
+            }
+            else if (!hasPassword)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync("Неверный пароль");
+                return;
+            }
+
+
+            var email = queryDictionary["email"];
+            var password = queryDictionary["password"];
+            
+            if (email != userEmail)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync("Неверный логин");
+                return;
+            }
+            else if (password != userPassword)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync("Неверный пароль");
+                return;
             }
             else
             {
+                context.Response.StatusCode = 200;
                 await context.Response.WriteAsync("Успешный вход");
+                return;
             }
         }
         else
