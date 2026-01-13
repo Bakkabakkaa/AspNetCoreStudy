@@ -33,5 +33,23 @@ public class BankAccountsController : Controller
     {
         return File("~/statement.pdf", "application/pdf");
     }
-    
+
+    [HttpGet]
+    [Route("/get-current-balance/{accountNumber:int?}")]
+    public IActionResult CurrentBalance([FromRoute] int? accountNumber)
+    {
+        if (accountNumber == _accountNumber)
+        {
+            return Content(_currentBalance.ToString());
+        }
+        else if (accountNumber == null)
+        {
+            HttpContext.Response.StatusCode = 404;
+            return Content("Account Number should be supplied");
+        }
+        else
+        {
+            return BadRequest("Account Number should be 1001");
+        }
+    }
 }
