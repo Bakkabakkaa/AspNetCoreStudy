@@ -14,4 +14,16 @@ public class BankAccountsController : Controller
     {
         return Content("Welcome to the Best Bank");
     }
+
+    [HttpGet]
+    [Route("/account-details")]
+    public IActionResult AccountDetails()
+    {
+        return Json(new
+        {
+            _accountNumber,
+            _accountHolderName,
+            _currentBalance
+        });
+    }
 }
