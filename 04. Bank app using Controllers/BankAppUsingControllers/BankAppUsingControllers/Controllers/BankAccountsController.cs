@@ -26,4 +26,12 @@ public class BankAccountsController : Controller
             _currentBalance
         });
     }
+
+    [HttpGet]
+    [Route("/account-statement")]
+    public IActionResult AccountStatement()
+    {
+        return File("~/statement.pdf", "application/pdf");
+    }
+    
 }
