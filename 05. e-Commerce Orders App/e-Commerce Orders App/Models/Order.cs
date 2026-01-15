@@ -1,9 +1,20 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace e_Commerce_Orders_App.Models;
 
 public class Order
 {
     public int? OrderNumber { get; set; }
-    public DateTime OrderDate { get; set; }
-    private double InvoicePrice { get; set; }
+    
+    [Required(ErrorMessage = "{0} can't be blank")]
+    [Display(Name = "Order Date")]
+    public DateTime? OrderDate { get; set; }
+    
+    [Required(ErrorMessage = "{0} can't be blank")]
+    [Display(Name = "Invoice Price")]
+    public double? InvoicePrice { get; set; }
+    
+    [Required(ErrorMessage = "{0} can't be blank")]
+    [MinLength(1, ErrorMessage = "At least one product is required")]
     public List<Product> Products { get; set; }
 }
