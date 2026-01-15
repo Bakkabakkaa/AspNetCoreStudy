@@ -7,8 +7,4 @@
         <RootNamespace>e_Commerce_Orders_App</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
 </Project>
