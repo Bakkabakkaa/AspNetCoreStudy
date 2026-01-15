@@ -7,7 +7,7 @@ public class OrderController : Controller
 {
     [HttpPost]
     [Route("/order")]
-    public IActionResult CreateOrder([FromBody] Order order)
+    public IActionResult CreateOrder([Bind("OrderDate,InvoicePrice,Products")][FromBody] Order order)
     {
         if (!ModelState.IsValid)
         {

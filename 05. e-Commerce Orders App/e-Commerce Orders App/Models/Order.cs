@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using e_Commerce_Orders_App.CustomValidators;
 
 namespace e_Commerce_Orders_App.Models;
 
@@ -7,6 +8,7 @@ public class Order
     public int? OrderNumber { get; set; }
     
     [Required(ErrorMessage = "{0} can't be blank")]
+    [MinimumYearValidator(2000)]
     [Display(Name = "Order Date")]
     public DateTime? OrderDate { get; set; }
     
