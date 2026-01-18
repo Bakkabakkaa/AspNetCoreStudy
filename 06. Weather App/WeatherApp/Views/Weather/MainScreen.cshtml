@@ -1,0 +1,60 @@
+@model List<CityWeather>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather</title>
+    <meta charset="utf-8"/>
+    <link href="~/StyleSheet.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="page-content">
+    <h1>Weather</h1>
+    <div class="flex">
+        @foreach (CityWeather weather in Model)
+        {
+            <div class="@GetTemperatureCssClass(weather.TemperatureFahrenheit)">
+                <div>
+                    <strong>@weather.CityName</strong>
+                </div>
+                
+                <div class="text-grey">
+                    @weather.DateAndTime.ToString("hh:mm tt") AM
+                </div>
+                
+                <div class="margin-top">
+                    <span style="font-size: 28px; font-weight: bold;">
+                        @weather.TemperatureFahrenheit
+                    </span>
+                    <span>°F</span>
+                </div>
+                
+                <div class="margin-top">
+                    <a href="/weather/@weather.CityUniqueCode">Details</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+</body>
+</html>
+
+@functions
+{
+    string GetTemperatureCssClass(int temperature)
+    {
+        if (temperature < 44)
+        {
+            return "blue-back";
+        }
+        else if (temperature <= 74)
+        {
+            return "green-back";
+        }
+        else
+        {
+            return "orange-back";
+        }
+    }
+}
