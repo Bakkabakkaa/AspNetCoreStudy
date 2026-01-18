@@ -2,13 +2,20 @@
 
 <html>
 <head>
-    <title>@ViewData["Title"]</title>
-    <link href="~/StyleSheet.css" rel="stylesheet"/>
+ <meta name="viewport" content="width=device-width" />
+ <title>@ViewBag.Title</title>
+ <link href="~/StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
-<h1>Weather</h1>
-<div class="page-content">
-    @RenderBody()
-</div>
+ <div class="container">
+  <div class="page-content">
+   <div class="margin-bottom">
+    <h1>Weather</h1>
+   </div>
+
+   @RenderBody()
+  </div>
+
+ </div>
 </body>
 </html>
