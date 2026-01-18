@@ -11,4 +11,19 @@ public class WeatherController : Controller
         new CityWeather() { CityUniqueCode = "NYC", CityName = "New York", DateAndTime = Convert.ToDateTime("2030-01-01 3:00"), TemperatureFahrenheit = 60 },
         new CityWeather() { CityUniqueCode = "PAR", CityName = "Paris", DateAndTime = Convert.ToDateTime("2030-01-01 9:00"), TemperatureFahrenheit = 82 }
     };
+
+    [HttpGet]
+    [Route("/")]
+    public IActionResult Index()
+    {
+        return View(cities);
+    }
+
+    [HttpGet]
+    [Route("/weather/{cityCode?}")]
+    public IActionResult City(string? cityCode)
+    {
+        var city = cities.FirstOrDefault(currentCity => currentCity.CityUniqueCode == cityCode);
+        return View(city);
+    }
 }
