@@ -40,6 +40,3 @@ _ReSharper*/
 
 # ASP.NET scaffolding
 ScaffoldingReadMe.txt
-
-# Publish outputs
-wwwroot/
