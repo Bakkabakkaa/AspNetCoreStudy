@@ -18,5 +18,12 @@ public class WeatherController : Controller
     {
         return View("MainScreen", cities);
     }
-    
+
+    [HttpGet]
+    [Route("weather/{cityCode}")]
+    public IActionResult City([FromRoute] string? cityCode)
+    {
+        CityWeather? city = cities.FirstOrDefault(current => current.CityUniqueCode == cityCode);
+        return View("CurrentCity", city);
+    }
 }
