@@ -1,0 +1,29 @@
+@model CityWeather
+
+@{
+    string GetCssClassByTemperature(int Temperature)
+    {
+        switch (Temperature)
+        {
+            case < 44:
+                return "blue-back";
+            case <= 74:
+                return "green-back";
+            default:
+                return "orange-back";
+        }
+    }
+}
+
+<div class="box cursor-pointer w-30 @GetCssClassByTemperature(Model.TemperatureFahrenheit)">
+    <div class="flex-borderless">
+        <div class="w-50">
+            <h2>@Model.CityName</h2>
+            <h4 class="text-dark-grey">@Model.DateAndTime.ToString("hh:mm tt")</h4>
+            <a href="~/weather/@Model.CityUniqueCode" class="margin-top">Details</a>
+        </div>
+        <div class="w-50 border-left">
+            <h1 class="margin-left">@Model.TemperatureFahrenheit <sup class="text-grey">&#8457</sup></h1>
+        </div>
+    </div>
+</div>
