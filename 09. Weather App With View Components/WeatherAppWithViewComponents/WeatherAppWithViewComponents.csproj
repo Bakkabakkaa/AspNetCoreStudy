@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="ViewComponents\" />
-      <Folder Include="Views\" />
     </ItemGroup>
 
 </Project>
