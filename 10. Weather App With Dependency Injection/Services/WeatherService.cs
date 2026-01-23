@@ -1,10 +1,11 @@
 ﻿
 
 using Models;
+using ServiceContracts;
 
 namespace Services;
 
-public class WeatherService
+public class WeatherService : IWeatherService
 {
     private readonly List<CityWeather> _cities;
 
