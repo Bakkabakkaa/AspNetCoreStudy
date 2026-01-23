@@ -3,7 +3,7 @@ using Models;
 
 namespace WeatherAppWithDependencyInjection.ViewComponents;
 
-public class CityViewComponents : ViewComponent
+public class CityViewComponent : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(CityWeather city)
     {
