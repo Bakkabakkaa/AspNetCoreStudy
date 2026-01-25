@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using ServiceContracts;
 
 namespace Services;
@@ -6,10 +7,12 @@ namespace Services;
 public class FinnhubService : IFinnhubService
 {
    private readonly IHttpClientFactory _httpClientFactory;
+   private readonly IConfiguration _configuration;
 
-   public FinnhubService(IHttpClientFactory httpClientFactory)
+   public FinnhubService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
    {
       _httpClientFactory = httpClientFactory;
+      _configuration = configuration;
    }
 
    public async Task<Dictionary<string, object?>> GetStockPriceQuote(string stockSymbol)
@@ -18,7 +21,7 @@ public class FinnhubService : IFinnhubService
       {
          HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
          {
-            RequestUri = new Uri("https://finnhub.io/api/v1/quote?symbol=MSFT&token=d5r3eohr01qqqlh9irn0d5r3eohr01qqqlh9irng"),
+            RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSymbol}&token={_configuration["FinngubToken"]}"),
             Method = HttpMethod.Get,
          };
 
