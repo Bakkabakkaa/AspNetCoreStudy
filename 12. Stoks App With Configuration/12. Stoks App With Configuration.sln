@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoksAppWithConfiguration", "StoksAppWithConfiguration\StoksAppWithConfiguration.csproj", "{71C08617-DBC5-43FF-B3CF-7B1181BEA29C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{C2B62FE4-DAFE-411E-9845-25E6EAAA38CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{71C08617-DBC5-43FF-B3CF-7B1181BEA29C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71C08617-DBC5-43FF-B3CF-7B1181BEA29C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71C08617-DBC5-43FF-B3CF-7B1181BEA29C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2B62FE4-DAFE-411E-9845-25E6EAAA38CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2B62FE4-DAFE-411E-9845-25E6EAAA38CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2B62FE4-DAFE-411E-9845-25E6EAAA38CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2B62FE4-DAFE-411E-9845-25E6EAAA38CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
