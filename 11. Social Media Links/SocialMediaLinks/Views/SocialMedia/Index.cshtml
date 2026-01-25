@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>Social Media</title>
-    <meta charset="UTF-8"/>
-    <link href="~/StyleSheet.css" rel="stylesheet"/>
-</head>
-<body>
-<h1>Social Media Links</h1>
-</body>
-</html>
+<div class="flex">
+    <div><a href="@ViewBag.SocialMediaLinks.Facebook">Facebook</a></div>
+    <environment exclude="Development">
+        <div><a href="@ViewBag.SocialMediaLinks.Instagram">Instagram</a></div>
+    </environment>
+    <div><a href="@ViewBag.SocialMediaLinks.Twitter">Twitter</a></div>
+    <div><a href="@ViewBag.SocialMediaLinks.Youtube">Youtube</a></div>
+</div>

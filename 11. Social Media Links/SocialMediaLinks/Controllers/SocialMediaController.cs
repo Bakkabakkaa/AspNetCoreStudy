@@ -16,7 +16,7 @@ public class SocialMediaController : Controller
     [Route("/")]
     public IActionResult Index()
     {
-        ViewBag.SocialMedia = _socialMediaLinksOptions;
+        ViewBag.SocialMediaLinks = _socialMediaLinksOptions;
         return View();
     }
 }
