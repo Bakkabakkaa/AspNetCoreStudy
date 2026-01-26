@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ServiceContracts;
@@ -9,10 +10,13 @@ public class TradeController : Controller
 {
     private readonly IFinnhubService _finnhubService;
     private readonly IOptions<TradingOptions> _tradingOptions;
-    public TradeController(IFinnhubService finnhubService, IOptions<TradingOptions> tradingOptions)
+    private readonly IConfiguration _configuration;
+    public TradeController(IFinnhubService finnhubService, IOptions<TradingOptions> tradingOptions,
+        IConfiguration configuration)
     {
         _finnhubService = finnhubService;
         _tradingOptions = tradingOptions;
+        _configuration = configuration;
     }
     [Route("/")]
     public async Task<IActionResult> Index()
@@ -29,13 +33,21 @@ public class TradeController : Controller
         StockTrade stockTrade = new StockTrade();
         if (dictionaryCompanyProfile != null && dictionaryStockPriceQuote != null)
         {
-            stockTrade = new StockTrade()
+            var priceElement = (JsonElement)dictionaryStockPriceQuote["c"];
+            var symbolElement = (JsonElement)dictionaryCompanyProfile["ticker"];
+            var nameElement = (JsonElement)dictionaryCompanyProfile["name"];
+
+            stockTrade = new StockTrade
             {
-                StockSymbol = Convert.ToString(dictionaryCompanyProfile["ticker"]),
-                StockName = Convert.ToString(dictionaryCompanyProfile["name"]),
-                Price = Convert.ToDouble(dictionaryStockPriceQuote["c"]),
+                StockSymbol = symbolElement.GetString(),
+                StockName = nameElement.GetString(),
+                Price = priceElement.GetDouble()
             };
         }
+
+        
+        ViewBag.FinnhubToken = _configuration["FinnhubToken"];
+
         
         return View(stockTrade);
     }
