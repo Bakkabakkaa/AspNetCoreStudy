@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ServiceContracts;
+using StoksAppWithConfiguration.Models;
 
 namespace StoksAppWithConfiguration.Controllers;
 
@@ -16,7 +17,26 @@ public class TradeController : Controller
     [Route("/")]
     public async Task<IActionResult> Index()
     {
-        Dictionary<string, object>? responseDictionary = await _finnhubService.GetStockPriceQuote(_tradingOptions.Value.DefaultStockSymbol);
-        return View();
+        if (_tradingOptions.Value.DefaultStockSymbol == null)
+        {
+            _tradingOptions.Value.DefaultStockSymbol = "MSFT";
+        }
+        
+        Dictionary<string, object>? dictionaryStockPriceQuote = await _finnhubService.GetStockPriceQuote(_tradingOptions.Value.DefaultStockSymbol);
+        Dictionary<string, object>? dictionaryCompanyProfile = await _finnhubService.GetCompanyProfile(_tradingOptions.Value.DefaultStockSymbol);
+
+
+        StockTrade stockTrade = new StockTrade();
+        if (dictionaryCompanyProfile != null && dictionaryStockPriceQuote != null)
+        {
+            stockTrade = new StockTrade()
+            {
+                StockSymbol = Convert.ToString(dictionaryCompanyProfile["ticker"]),
+                StockName = Convert.ToString(dictionaryCompanyProfile["name"]),
+                Price = Convert.ToDouble(dictionaryStockPriceQuote["c"]),
+            };
+        }
+        
+        return View(stockTrade);
     }
 }

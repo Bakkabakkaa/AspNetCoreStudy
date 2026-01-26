@@ -22,7 +22,7 @@ public class FinnhubService : IFinnhubService
          HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
          {
             Method = HttpMethod.Get,
-            RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSymbol}&token={_configuration["FinngubToken"]}"),
+            RequestUri = new Uri($"https://finnhub.io/api/v1/stock/profile2?symbol={stockSymbol}&token={_configuration["FinnhubToken"]}"),
          };
 
          HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
