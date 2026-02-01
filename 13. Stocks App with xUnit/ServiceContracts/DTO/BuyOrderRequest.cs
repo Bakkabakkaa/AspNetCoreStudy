@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Entities;
 
 namespace ServiceContracts.DTO;
 
@@ -21,4 +22,18 @@ public class BuyOrderRequest
     
     [Range(1, 10000, ErrorMessage = "The maximum price of stock is 10000. Minimum is 1.")]
     public double Price { get; set; }
+
+    /// <summary>
+    /// Converts the current object of BuyOrderRequest into a new object of BuyOrder type
+    /// </summary>
+    /// <returns>A new object of BuyOrder class</returns>
+    public BuyOrder ToBuyOrder()
+    {
+        return new BuyOrder()
+        {
+            StockSymbol = this.StockSymbol, StockName = this.StockName,
+            DateAndTimeOfOrder = this.DateAndTimeOfOrder, Quantity = this.Quantity,
+            Price = this.Price
+        };
+    }
 }
