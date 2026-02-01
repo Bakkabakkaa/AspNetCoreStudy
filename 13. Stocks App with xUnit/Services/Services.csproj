@@ -10,4 +10,8 @@
       <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.2" />
+    </ItemGroup>
+
 </Project>
