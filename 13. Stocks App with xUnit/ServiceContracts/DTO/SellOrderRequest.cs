@@ -7,7 +7,7 @@ namespace ServiceContracts.DTO;
 /// DTO class that represents a sell order -
 /// that can be used while inserting / updating
 /// </summary>
-public class SellOrderRequest
+public class SellOrderRequest : IValidatableObject
 {
     [Required(ErrorMessage = "Stock Symbol can't be null or empty")]
     public string StockSymbol { get; set; }
@@ -35,5 +35,17 @@ public class SellOrderRequest
             DateAndTimeOfOrder = this.DateAndTimeOfOrder, Quantity = this.Quantity,
             Price = this.Price, 
         };
+    }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        List<ValidationResult> results = new List<ValidationResult>();
+
+        if (DateAndTimeOfOrder < Convert.ToDateTime("2000-01-01"))
+        {
+            results.Add(new ValidationResult("Date of the order should not be older than Jan 01, 2000."));
+        }
+
+        return results;
     }
 }

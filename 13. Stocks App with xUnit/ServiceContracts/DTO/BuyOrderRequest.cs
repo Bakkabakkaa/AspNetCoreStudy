@@ -7,7 +7,7 @@ namespace ServiceContracts.DTO;
 /// DTO class that represents a buy order to purchase the
 /// stocks - that can be used while inserting / updating
 /// </summary>
-public class BuyOrderRequest
+public class BuyOrderRequest : IValidatableObject
 {
     [Required(ErrorMessage = "Stock Symbol can't be null or empty")]
     public string StockSymbol { get; set; }
@@ -35,5 +35,22 @@ public class BuyOrderRequest
             DateAndTimeOfOrder = this.DateAndTimeOfOrder, Quantity = this.Quantity,
             Price = this.Price
         };
+    }
+
+    /// <summary>
+    /// Model class-level validation using IValidatableObject
+    /// </summary>
+    /// <param name="validationContext">ValidationContext to validate</param>
+    /// <returns>Returns validation errors as ValidationResult</returns>
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        List<ValidationResult> results = new List<ValidationResult>();
+        
+        if (DateAndTimeOfOrder < Convert.ToDateTime("2000-01-01"))
+        {
+            results.Add(new ValidationResult("Date of the order should not be older than 01.01.2000."));
+        }
+
+        return results;
     }
 }
