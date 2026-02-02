@@ -43,7 +43,26 @@ public class StocksService : IStocksService
 
     public SellOrderResponse CreateSellOrder(SellOrderRequest? sellOrderRequest)
     {
-        return _stocksServiceImplementation.CreateSellOrder(sellOrderRequest);
+        // Validation: sellOrderRequest can't be null
+        if (sellOrderRequest == null)
+        {
+            throw new ArgumentNullException(nameof(sellOrderRequest));
+        }
+        
+        // Model validation
+        ValidationHelper.ModelValidation(sellOrderRequest);
+        
+        // Convert sellOrderRequest int SellOrder type
+        SellOrder sellOrder = sellOrderRequest.ToSellOrder();
+
+        // Generate SellOrderID
+        sellOrder.SellOrderID = Guid.NewGuid();
+        
+        // Add sell order object to sell orders list
+        _sellOrders.Add(sellOrder);
+
+        // Convert the SellOrder object into SellOrderResponse type
+        return sellOrder.ToSellOrderResponse();
     }
 
     public List<BuyOrderResponse> GetBuyOrders()
