@@ -246,6 +246,7 @@ public class StocksServiceTest
         });
     }
 
+    [Fact]
     public void CreateSellOrder_ValidData_ToBeSuccessful()
     {
         // Arrange
@@ -286,6 +287,34 @@ public class StocksServiceTest
         Assert.Contains(buyOrderResponseFromAdd, buyOrderResponseListFromGet);
     }
     
+    #endregion
+
+    #region GetSellOrders
+
+    [Fact]
+    public void GetAllSellOrders_DefaultList_ToBeEmpty()
+    {
+        // Act
+        List<SellOrderResponse> sellOrderResponses = _stocksService.GetSellOrders();
+        
+        // Assert
+        Assert.Empty(sellOrderResponses);
+    }
+
+    [Fact]
+    public void GetAllSellOrders_WithFewSellOrders_ToBeSuccessful()
+    {
+        // Arrange
+        SellOrderRequest sellOrderRequest = CreateValidSellOrderRequest();
+        SellOrderResponse sellOrderResponseFromAdd = _stocksService.CreateSellOrder(sellOrderRequest);
+        
+        // Act
+        List<SellOrderResponse> sellOrderResponseListFromGet = _stocksService.GetSellOrders();
+        
+        // Assert
+        Assert.Contains(sellOrderResponseFromAdd, sellOrderResponseListFromGet);
+    }
+
     #endregion
 
     private BuyOrderRequest CreateValidBuyOrderRequest()
