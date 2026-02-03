@@ -260,6 +260,34 @@ public class StocksServiceTest
 
     #endregion
 
+    #region GetBuyOrders
+
+    [Fact]
+    public void GetAllBuyOrders_DefaultList_ToBeEmpty()
+    {
+        // Act
+        List<BuyOrderResponse> buyOrderResponses = _stocksService.GetBuyOrders();
+        
+        // Assert
+        Assert.Empty(buyOrderResponses);
+    }
+
+    [Fact]
+    public void GetAllBuyOrders_WithFewBuyOrders_ToBeSuccessful()
+    {
+        // Arrange
+        BuyOrderRequest buyOrderRequest = CreateValidBuyOrderRequest();
+        
+        // Act
+        BuyOrderResponse buyOrderResponseFromAdd = _stocksService.CreateBuyOrder(buyOrderRequest);
+        List<BuyOrderResponse> buyOrderResponseListFromGet = _stocksService.GetBuyOrders();
+        
+        // Assert
+        Assert.Contains(buyOrderResponseFromAdd, buyOrderResponseListFromGet);
+    }
+    
+    #endregion
+
     private BuyOrderRequest CreateValidBuyOrderRequest()
     {
         return new BuyOrderRequest()
