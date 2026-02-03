@@ -75,6 +75,8 @@ public class StocksService : IStocksService
 
     public List<SellOrderResponse> GetSellOrders()
     {
-        return _stocksServiceImplementation.GetSellOrders();
+        return _sellOrders
+            .OrderByDescending(temp => temp.DateAndTimeOfOrder)
+            .Select(temp => temp.ToSellOrderResponse()).ToList();
     }
 }
