@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ServiceContracts;
@@ -53,7 +54,7 @@ public class TradeController : Controller
             {
                 StockSymbol = Convert.ToString(companyProfileDictionary["ticker"]),
                 StockName = Convert.ToString(companyProfileDictionary["name"]),
-                Price = Convert.ToDouble(stockQuoteDictionary["c"].ToString())
+                Price = ((JsonElement)stockQuoteDictionary["c"]).GetDouble()
             };
         }
         

@@ -11,9 +11,4 @@
       <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Views\Shared\" />
-      <Folder Include="Views\Trade\" />
-    </ItemGroup>
-
 </Project>
