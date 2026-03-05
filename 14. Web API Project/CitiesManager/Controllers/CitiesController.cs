@@ -3,7 +3,6 @@ using CitiesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace CitiesManager.WebAPI.Controllers
 {
  [Route("api/[controller]")]
@@ -21,27 +20,22 @@ namespace CitiesManager.WebAPI.Controllers
   [HttpGet]
   public async Task<ActionResult<IEnumerable<City>>> GetCities()
   {
-   if (_context.Cities == null)
-   {
-    return NotFound();
-   }
-   return await _context.Cities.ToListAsync();
+   var cities = await _context.Cities
+    .OrderBy(temp => temp.CityName).ToListAsync();
+   return cities;
   }
 
 
   // GET: api/Cities/5
-  [HttpGet("{id}")]
-  public async Task<ActionResult<City>> GetCity(Guid id)
+  [HttpGet("{cityID}")]
+  public async Task<ActionResult<City>> GetCity(Guid cityID)
   {
-   if (_context.Cities == null)
-   {
-    return NotFound();
-   }
-   var city = await _context.Cities.FindAsync(id);
+   var city = await _context.Cities.FirstOrDefaultAsync(temp => temp.CityID == cityID);
 
    if (city == null)
    {
-    return NotFound();
+    return Problem(detail: "Invalid CityID", statusCode: 400, title: "City Search");
+    //return BadRequest();
    }
 
    return city;
@@ -49,16 +43,21 @@ namespace CitiesManager.WebAPI.Controllers
 
 
   // PUT: api/Cities/5
-  // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-  [HttpPut("{id}")]
-  public async Task<IActionResult> PutCity(Guid id, City city)
+  [HttpPut("{cityID}")]
+  public async Task<IActionResult> PutCity(Guid cityID, [Bind(nameof(City.CityID), nameof(City.CityName))] City city)
   {
-   if (id != city.CityID)
+   if (cityID != city.CityID)
    {
-    return BadRequest();
+    return BadRequest(); //HTTP 400
    }
 
-   _context.Entry(city).State = EntityState.Modified;
+   var existingCity = await _context.Cities.FindAsync(cityID);
+   if (existingCity == null)
+   {
+    return NotFound(); //HTTP 404
+   }
+
+   existingCity.CityName = city.CityName;
 
    try
    {
@@ -66,7 +65,7 @@ namespace CitiesManager.WebAPI.Controllers
    }
    catch (DbUpdateConcurrencyException)
    {
-    if (!CityExists(id))
+    if (!CityExists(cityID))
     {
      return NotFound();
     }
@@ -81,9 +80,8 @@ namespace CitiesManager.WebAPI.Controllers
 
 
   // POST: api/Cities
-  // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
   [HttpPost]
-  public async Task<ActionResult<City>> PostCity(City city)
+  public async Task<ActionResult<City>> PostCity([Bind(nameof(City.CityID), nameof(City.CityName))] City city)
   {
    if (_context.Cities == null)
    {
@@ -92,7 +90,7 @@ namespace CitiesManager.WebAPI.Controllers
    _context.Cities.Add(city);
    await _context.SaveChangesAsync();
 
-   return CreatedAtAction("GetCity", new { id = city.CityID }, city);
+   return CreatedAtAction("GetCity", new { cityID = city.CityID }, city); //Eg: Location: api/Cities/67d28f3d-43eb-49c7-916c-5b39172955e5
   }
 
 
@@ -100,21 +98,18 @@ namespace CitiesManager.WebAPI.Controllers
   [HttpDelete("{id}")]
   public async Task<IActionResult> DeleteCity(Guid id)
   {
-   if (_context.Cities == null)
-   {
-    return NotFound();
-   }
    var city = await _context.Cities.FindAsync(id);
    if (city == null)
    {
-    return NotFound();
+    return NotFound(); //HTTP 404
    }
 
    _context.Cities.Remove(city);
    await _context.SaveChangesAsync();
 
-   return NoContent();
+   return NoContent(); //HTTP 200
   }
+
 
   private bool CityExists(Guid id)
   {
