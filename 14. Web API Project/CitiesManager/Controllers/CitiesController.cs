@@ -3,11 +3,9 @@ using CitiesManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CitiesManager.WebAPI.Controllers
+namespace CitiesManager.Controllers
 {
- [Route("api/[controller]")]
- [ApiController]
- public class CitiesController : ControllerBase
+ public class CitiesController : CustomControllerBase
  {
   private readonly ApplicationDbContext _context;
 
@@ -83,6 +81,11 @@ namespace CitiesManager.WebAPI.Controllers
   [HttpPost]
   public async Task<ActionResult<City>> PostCity([Bind(nameof(City.CityID), nameof(City.CityName))] City city)
   {
+   //if (ModelState.IsValid == false)
+   //{
+   // return ValidationProblem(ModelState);
+   //}
+
    if (_context.Cities == null)
    {
     return Problem("Entity set 'ApplicationDbContext.Cities'  is null.");

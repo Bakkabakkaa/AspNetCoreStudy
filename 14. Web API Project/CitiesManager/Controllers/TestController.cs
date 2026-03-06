@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace CitiesManager.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class TestController : ControllerBase
+namespace CitiesManager.Controllers
 {
-    [HttpGet]
-    public string Method()
+    public class TestController : CustomControllerBase
     {
-        return "Hello World";
+        [HttpGet]
+        public string Method()
+        {
+            return "Hello World";
+        }
     }
 }
