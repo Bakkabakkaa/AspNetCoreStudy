@@ -13,7 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // Generates description for all endpoints
-builder.Services.AddSwaggerGen(); // Generates OpenAPI specification
+builder.Services.AddSwaggerGen( options => 
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "api.xml"))); // Generates OpenAPI specification
 
 var app = builder.Build();
 
