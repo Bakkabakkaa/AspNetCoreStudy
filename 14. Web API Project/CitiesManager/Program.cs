@@ -36,8 +36,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // Generates description for all endpoints
 builder.Services.AddSwaggerGen(options =>
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
-        "CitiesManager.xml"))); // Generates OpenAPI specification
+    {
+        options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+            "CitiesManager.xml"));
+        
+        options.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo()
+        {
+            Title = "Cities Web API",
+            Version = "1.0"
+        });
+        
+        options.SwaggerDoc("v2", new Microsoft.OpenApi.OpenApiInfo()
+        {
+            Title = "Cities Web API",
+            Version = "2.0"
+        });
+    }); // Generates OpenAPI specification
+
+builder.Services.AddApiVersioning().AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 var app = builder.Build();
 
@@ -47,7 +67,11 @@ app.UseHsts();
 app.UseHttpsRedirection();
 
 app.UseSwagger(); // Creates endpoint for swagger.json
-app.UseSwaggerUI(); // Creates swagger UI for testing all Web API endpoints / action methods
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "1.0");
+    options.SwaggerEndpoint("/swagger/v2/swagger.json", "2.0");
+}); // Creates swagger UI for testing all Web API endpoints / action methods
 
 app.UseAuthorization();
 
