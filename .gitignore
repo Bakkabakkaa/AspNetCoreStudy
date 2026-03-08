@@ -40,3 +40,34 @@ _ReSharper*/
 
 # ASP.NET scaffolding
 ScaffoldingReadMe.txt
+
+# Node modules
+node_modules/
+
+# Angular build
+dist/
+.angular/
+
+# Angular cache
+.cache/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files (иногда хранят секреты)
+src/environments/*.local.ts
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# JetBrains Rider cache
+.idea/**/shelf
+.idea/**/usage.statistics.xml
+.idea/**/contentModel.xml
