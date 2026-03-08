@@ -1,11 +1,17 @@
 using CitiesManager.DatabaseContext;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new ProducesAttribute("application/json"));
+    options.Filters.Add(new ConsumesAttribute("application/json"));
+}).AddXmlSerializerFormatters();
+    
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
@@ -14,7 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Swagger
 builder.Services.AddEndpointsApiExplorer(); // Generates description for all endpoints
 builder.Services.AddSwaggerGen( options => 
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "api.xml"))); // Generates OpenAPI specification
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "CitiesManager.xml"))); // Generates OpenAPI specification
 
 var app = builder.Build();
 
