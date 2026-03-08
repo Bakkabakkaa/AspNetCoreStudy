@@ -17,7 +17,7 @@ namespace CitiesManager.Controllers.v1
             _context = context;
         }
 
-        // GET: api/Cities
+        // GET: api/CitiesComponent
         /// <summary>
         /// To get list of cities (including city ID and city name)
         /// from "cities" table
@@ -33,7 +33,7 @@ namespace CitiesManager.Controllers.v1
         }
 
 
-        // GET: api/Cities/5
+        // GET: api/CitiesComponent/5
         [HttpGet("{cityID}")]
         public async Task<ActionResult<City>> GetCity(Guid cityID)
         {
@@ -49,7 +49,7 @@ namespace CitiesManager.Controllers.v1
         }
 
 
-        // PUT: api/Cities/5
+        // PUT: api/CitiesComponent/5
         [HttpPut("{cityID}")]
         public async Task<IActionResult> PutCity(Guid cityID,
             [Bind(nameof(City.CityID), nameof(City.CityName))] City city)
@@ -87,7 +87,7 @@ namespace CitiesManager.Controllers.v1
         }
 
 
-        // POST: api/Cities
+        // POST: api/CitiesComponent
         [HttpPost]
         public async Task<ActionResult<City>> PostCity([Bind(nameof(City.CityID), nameof(City.CityName))] City city)
         {
@@ -98,18 +98,18 @@ namespace CitiesManager.Controllers.v1
 
             if (_context.Cities == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Cities'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.CitiesComponent'  is null.");
             }
 
             _context.Cities.Add(city);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCity", new { cityID = city.CityID },
-                city); //Eg: Location: api/Cities/67d28f3d-43eb-49c7-916c-5b39172955e5
+                city); //Eg: Location: api/CitiesComponent/67d28f3d-43eb-49c7-916c-5b39172955e5
         }
 
 
-        // DELETE: api/Cities/5
+        // DELETE: api/CitiesComponent/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(Guid id)
         {

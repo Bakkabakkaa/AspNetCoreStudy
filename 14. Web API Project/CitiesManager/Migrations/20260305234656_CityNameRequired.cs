@@ -12,7 +12,7 @@ namespace CitiesManager.Migrations
         {
             migrationBuilder.AlterColumn<string>(
                 name: "CityName",
-                table: "Cities",
+                table: "CitiesComponent",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "",
@@ -26,7 +26,7 @@ namespace CitiesManager.Migrations
         {
             migrationBuilder.AlterColumn<string>(
                 name: "CityName",
-                table: "Cities",
+                table: "CitiesComponent",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),

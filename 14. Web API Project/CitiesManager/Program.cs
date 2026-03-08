@@ -42,13 +42,13 @@ builder.Services.AddSwaggerGen(options =>
         
         options.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo()
         {
-            Title = "Cities Web API",
+            Title = "CitiesComponent Web API",
             Version = "1.0"
         });
         
         options.SwaggerDoc("v2", new Microsoft.OpenApi.OpenApiInfo()
         {
-            Title = "Cities Web API",
+            Title = "CitiesComponent Web API",
             Version = "2.0"
         });
     }); // Generates OpenAPI specification

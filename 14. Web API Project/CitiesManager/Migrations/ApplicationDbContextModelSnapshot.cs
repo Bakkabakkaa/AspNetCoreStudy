@@ -34,7 +34,7 @@ namespace CitiesManager.Migrations
 
                     b.HasKey("CityID");
 
-                    b.ToTable("Cities");
+                    b.ToTable("CitiesComponent");
 
                     b.HasData(
                         new

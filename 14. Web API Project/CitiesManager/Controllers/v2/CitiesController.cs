@@ -16,7 +16,7 @@ namespace CitiesManager.Controllers.v2
             _context = context;
         }
 
-        // GET: api/Cities
+        // GET: api/CitiesComponent
         /// <summary>
         /// To get list of cities (only city name) from "cities" table
         /// </summary>

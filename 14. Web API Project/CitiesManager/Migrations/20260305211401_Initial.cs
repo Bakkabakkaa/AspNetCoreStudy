@@ -14,7 +14,7 @@ namespace CitiesManager.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Cities",
+                name: "CitiesComponent",
                 columns: table => new
                 {
                     CityID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -26,7 +26,7 @@ namespace CitiesManager.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Cities",
+                table: "CitiesComponent",
                 columns: new[] { "CityID", "CityName" },
                 values: new object[,]
                 {
@@ -39,7 +39,7 @@ namespace CitiesManager.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "CitiesComponent");
         }
     }
 }

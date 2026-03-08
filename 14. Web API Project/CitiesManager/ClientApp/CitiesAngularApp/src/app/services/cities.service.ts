@@ -5,7 +5,7 @@ import {City} from "../models/city";
   providedIn: 'root',
 })
 
-export class Cities {
+export class CitiesService {
   cities: City[] = [];
 
   constructor() {
