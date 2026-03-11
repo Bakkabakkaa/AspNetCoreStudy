@@ -20,7 +20,7 @@ public static class ProductsMapGroup
             // Sample Response:
             // [{ "Id": 1, "ProductName": "Smart Phone" }, { "Id": 2, "ProductName": "Smart TV" }]
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize(products));
+            return Results.Ok(products);
         });
 
         // GET /products/{id}
@@ -29,53 +29,71 @@ public static class ProductsMapGroup
             Product? product = products.FirstOrDefault(temp => temp.Id == id);
             if (product == null)
             {
-                context.Response.StatusCode = 400; //Bad Request
-                await context.Response.WriteAsync("Incorrect Product ID");
-                return;
+                return Results.BadRequest(new { error = "Incorrect Product ID" });
             }
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize(product));
+            return Results.Ok(product);
         });
 
         // POST /products
         group.MapPost("/", async (HttpContext context, Product product) =>
         {
             products.Add(product);
-            await context.Response.WriteAsync("Product Added");
+            return Results.Ok(new { message = "Product Added" });
         });
 
         // PUT /products/{id}
-        group.MapPut("/{id}", async (HttpContext context, int id, [FromBody]Product product) =>
+        group.MapPut("/{id}", async (HttpContext context, int id, [FromBody] Product product) =>
         {
             Product? productFromCollection = products.FirstOrDefault(temp => temp.Id == id);
 
             if (productFromCollection == null)
             {
-                context.Response.StatusCode = 400; // Bad Request
-                await context.Response.WriteAsync("Incorrect Product ID");
-                return;
+                return Results.BadRequest(new {error = "Incorrect Product ID"});
             }
 
             productFromCollection.ProductName = product.ProductName;
 
-            await context.Response.WriteAsync("Product Updated");
+            return Results.Ok(new { message = "Product Updated" });
         });
-        
+
         // DELETE /products/{id}
-        group.MapDelete("/{id}", async (HttpContext context, int id) => {
+        group.MapDelete("/{id}", async (HttpContext context, int id) =>
+        {
             Product? productFromCollection = products.FirstOrDefault(temp => temp.Id == id);
             if (productFromCollection == null)
             {
-                context.Response.StatusCode = 400; // Bad Request
-                await context.Response.WriteAsync("Incorrect Product ID");
-                return;
+                /*
+                Sample Response:
+                {
+                 "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                 "title": "One or more validation errors occurred.",
+                 "status": 400,
+                 "errors": {
+                     "id": [
+                         "Incorrect Product ID"
+                     ]
+                  }
+                }
+                */
+
+                return Results.ValidationProblem(
+                    new Dictionary<string, string[]>
+                    {
+                        { "id", new string[] { "Incorrect Product ID" } }
+                    });
             }
 
             products.Remove(productFromCollection);
 
-            await context.Response.WriteAsync("Product Deleted");
+            // await context.Response.WriteAsync("Product Deleted");
+
+            return Results.Ok(new
+            {
+                message = "Product Deleted"
+            });
         });
 
-    return group;
+        return group;
     }
 }
