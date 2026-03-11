@@ -61,7 +61,20 @@ public static class ProductsMapGroup
             await context.Response.WriteAsync("Product Updated");
         });
         
-        // DELETE
+        // DELETE /products/{id}
+        group.MapDelete("/{id}", async (HttpContext context, int id) => {
+            Product? productFromCollection = products.FirstOrDefault(temp => temp.Id == id);
+            if (productFromCollection == null)
+            {
+                context.Response.StatusCode = 400; // Bad Request
+                await context.Response.WriteAsync("Incorrect Product ID");
+                return;
+            }
+
+            products.Remove(productFromCollection);
+
+            await context.Response.WriteAsync("Product Deleted");
+        });
 
     return group;
     }
