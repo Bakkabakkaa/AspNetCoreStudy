@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using MinimalAPI.Models;
@@ -40,6 +41,30 @@ public static class ProductsMapGroup
         {
             products.Add(product);
             return Results.Ok(new { message = "Product Added" });
+        }).AddEndpointFilter(async (EndpointFilterInvocationContext context, EndpointFilterDelegate next) =>
+        {
+            var product = context.Arguments.OfType<Product>().FirstOrDefault();
+
+            if (product == null)
+            {
+                return Results.BadRequest("Product  details are not found in the request");
+            }
+
+            var validationContext = new ValidationContext(product);
+            List<ValidationResult> errors = new List<ValidationResult>();
+            
+            bool isValid = Validator.TryValidateObject(product, validationContext, errors, true);
+
+            if (!isValid)
+            {
+                return Results.BadRequest(errors.FirstOrDefault()?.ErrorMessage);
+            }
+
+            var result = await next(context); // Invokes the subsequent endpoint filter or endpoint's request delegate
+            
+            // After logic here
+
+            return result;
         });
 
         // PUT /products/{id}
