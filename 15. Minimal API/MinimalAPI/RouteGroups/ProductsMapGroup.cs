@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using MinimalAPI.EndpointFilters;
 using MinimalAPI.Models;
 
 namespace MinimalAPI.RouteGroups;
@@ -41,7 +42,9 @@ public static class ProductsMapGroup
         {
             products.Add(product);
             return Results.Ok(new { message = "Product Added" });
-        }).AddEndpointFilter(async (EndpointFilterInvocationContext context, EndpointFilterDelegate next) =>
+        })
+            .AddEndpointFilter<CustomEndpointFilter>()
+            .AddEndpointFilter(async (EndpointFilterInvocationContext context, EndpointFilterDelegate next) =>
         {
             var product = context.Arguments.OfType<Product>().FirstOrDefault();
 
